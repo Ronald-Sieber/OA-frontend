@@ -64,7 +64,7 @@
       <el-input v-model="rejectComment" type="textarea" rows="4" placeholder="填写意见" />
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitReject">确 定</el-button>
+          <el-button type="primary" :disabled="!rejectComment || !rejectComment.trim()" @click="submitReject">确 定</el-button>
           <el-button @click="rejectOpen = false">取 消</el-button>
         </div>
       </template>
@@ -129,13 +129,13 @@ function getList() {
 const approveOpen = ref(false)
 const approveComment = ref('')
 let currentRow = null
-function openApprove(row) { currentRow = row; approveOpen.value = true }
+function openApprove(row) { currentRow = row; approveComment.value = ''; approveOpen.value = true }
 function submitApprove() { approveProcess(currentRow._id, { comment: approveComment.value }).then(() => { approveOpen.value = false; getTodo() }).catch(() => { }) }
 
 const rejectOpen = ref(false)
 const rejectComment = ref('')
-function openReject(row) { currentRow = row; rejectOpen.value = true }
-function submitReject() { rejectProcess(currentRow._id, { comment: rejectComment.value }).then(() => { rejectOpen.value = false; getTodo() }).catch(() => { }) }
+function openReject(row) { currentRow = row; rejectComment.value = ''; rejectOpen.value = true }
+function submitReject() { if (!rejectComment.value || !String(rejectComment.value).trim()) return; rejectProcess(currentRow._id, { comment: rejectComment.value }).then(() => { rejectOpen.value = false; getTodo() }).catch(() => { }) }
 
 const createOpen = ref(false)
 const form = ref({ title: '', content: '', approverIds: [] })

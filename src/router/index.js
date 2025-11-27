@@ -175,9 +175,24 @@ export const constantRoutes = [
           noCache: false,
           link: null,
         },
-      },
+      }
     ],
   },
+  {
+    path: '/tasks',
+    component: Layout,
+    hidden: false,
+    redirect: 'noRedirect',
+    meta: { title: '任务管理', icon: 'list', noCache: false, link: null },
+    children: [
+      {
+        path: '',
+        name: 'Tasks',
+        component: () => import('@/views/system/notice/tasks.vue'),
+        meta: { title: '任务管理', icon: 'list', noCache: false, link: null },
+      },
+    ],
+  }
 ]
 
 // 动态路由，基于用户权限动态去加载
